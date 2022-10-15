@@ -1,3 +1,8 @@
+# Aby włączyć jedną z porządanych funkcji należy wpisać:
+# make ...
+# w miejsce kropek wpisujemy jedną z poniższych komend
+
+
 double_chart:
 	python NUM1.py double chart
 
