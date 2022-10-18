@@ -1,12 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-import pandas as pd
-
-
 
 # variables
-accuracy = np.float64
 f = np.sin      # funkcja
 df = np.cos     # pochodna funkcji
 point = 0.2     # punkt x
@@ -35,7 +31,7 @@ def chart():
     plt.loglog(h, miscalculation(derivative_a, point))
     plt.loglog(h, miscalculation(derivative_b, point))
     plt.legend(['Derivative A', 'Derivative B'])
-    plt.savefig('Miscalculation_chart.png')
+    plt.savefig(chart_name)
     plt.show()
 
 
@@ -43,29 +39,13 @@ def print_miscalculation():
     a = miscalculation(derivative_a, point)
     b = miscalculation(derivative_b, point)
 
-    # for x in range(300):
-        # print("{:.5f}".format(a))
-        # print("{:.10f}".format(a[x]), "{:.10f}".format(b[x]))
+    print('    {}           {}      {}'
+          .format('h value:', 'Miscalc. of func. a:', 'Miscalc. of func. b:'))
+
+    for x in range(0, points_on_chart, 14):
+        print('{:.14f}         {:.14f}          {:.14f}'.format(h[x], a[x], b[x]))
 
 
-def generate_table():
-    fig, ax = plt.subplots()
-    ax.axis('off')
-    ax.axis('tight')
-
-    a = miscalculation(derivative_a, point)
-    b = miscalculation(derivative_b, point)
-
-    for x in range(300):
-        h[x] = '%0.15f' % h[x]
-
-    table = pd.DataFrame(data ={'H': h,
-                                'Function a miscalculation': a,
-                                'Function b miscalculation:': b
-                                })
-    ax.table(cellText=table.values[::int(20)], colLabels=table.columns, loc='center')
-    fig.tight_layout()
-    plt.savefig('table.pdf')
 
 
 if len(sys.argv) != 3:
@@ -73,10 +53,14 @@ if len(sys.argv) != 3:
     quit()
 elif sys.argv[1] == 'float':
     accuracy = np.float32
-    h = accuracy(np.logspace(-7, 0, 250))  # parametr # FLOAT
+    points_on_chart = 250
+    h = accuracy(np.logspace(-7, 0, points_on_chart))       # FLOAT
+    chart_name = 'miscalculation_chart_float.png'
 elif sys.argv[1] == 'double':
     accuracy = np.float64
-    h = accuracy(np.logspace(-14, 0, 300))    # parametr # DOUBLE
+    points_on_chart = 300
+    h = accuracy(np.logspace(-14, 0, points_on_chart))      # DOUBLE
+    chart_name ='miscalculation_chart_double.png'
 else:
     print('Wrong argument!')
 
@@ -84,8 +68,48 @@ else:
 if sys.argv[2] == 'chart':
     chart()
 elif sys.argv[2] == 'miscalculation':
-    # print(miscalculation(derivative_a, point))
-    # print_miscalculation()
-    generate_table()
+    print_miscalculation()
 else:
     print('Wrong argument!')
+
+
+# def generate_table():
+#     fig, ax = plt.subplots()
+#     ax.axis('off')
+#     ax.axis('tight')
+#
+#     a = miscalculation(derivative_a, point)
+#     b = miscalculation(derivative_b, point)
+#
+#     table = pd.DataFrame(data ={'H': h,
+#                                 'Function a miscalculation': a,
+#                                 'Function b miscalculation:': b
+#                                 })
+#     pd.options.display.float_format = '{:.19f}'.format
+#     print(table.loc[0,:])
+#     ax.table(cellText=table.values[::int(20)], colLabels=table.columns, loc='center')
+#     fig.tight_layout()
+#     plt.savefig('table.pdf')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
