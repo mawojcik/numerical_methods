@@ -1,4 +1,4 @@
-# Aby włączyć jedną z porządanych funkcji należy wpisać:
+# Aby włączyć jedną z porzadanych funkcji nalezy wpisac:
 # make ...
 # w miejsce kropek wpisujemy jedną z poniższych komend
 
