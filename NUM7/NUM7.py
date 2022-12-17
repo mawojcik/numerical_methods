@@ -91,13 +91,30 @@ def plots():
     fig.tight_layout(pad=1.0)
     # plt.savefig("test.pdf")
 
-    # prawy dolny
-    # fig.savefig(
-    #     "test.pdf",
-    #     bbox_inches=mtransforms.Bbox([[0.5, 0], [1, 0.5]]).transformed(
-    #         fig.transFigure - fig.dpi_scale_trans
-    #     )
-    # )
+    fig.savefig(
+        "lewy_gorny.pdf",
+        bbox_inches=mtransforms.Bbox([[0, 0.5], [0.5, 1]]).transformed(
+            fig.transFigure - fig.dpi_scale_trans
+        )
+    )
+    fig.savefig(
+        "prawy_gorny.pdf",
+        bbox_inches=mtransforms.Bbox([[0.5, 0.5], [1, 1]]).transformed(
+            fig.transFigure - fig.dpi_scale_trans
+        )
+    )
+    fig.savefig(
+        "lewy_dolny.pdf",
+        bbox_inches=mtransforms.Bbox([[0, 0], [0.5, 0.5]]).transformed(
+            fig.transFigure - fig.dpi_scale_trans
+        )
+    )
+    fig.savefig(
+        "prawy_dolny.pdf",
+        bbox_inches=mtransforms.Bbox([[0.5, 0], [1, 0.5]]).transformed(
+            fig.transFigure - fig.dpi_scale_trans
+        )
+    )
 
 
 
