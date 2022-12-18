@@ -3,15 +3,6 @@ import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
 
 
-
-def y_function(x):
-    return 1 / (25 * (x**2) + 1)
-
-
-def fun2(x):
-    return 1 / (x**2 + 1)
-
-
 def a_node(n):
     return [-1 + 2*i / n for i in range(n+1)]
 
@@ -20,8 +11,20 @@ def b_node(n):
     return np.cos([((2 * i+1) / (2 * (n+1))) * np.pi for i in range(n+1)])
 
 
-def interpolation(fun, node, x_range, n):
+def y_function(x):
+    return 1 / (25 * (x**2) + 1)
+
+def fun2(x):
+    return 1 / (3 * x**4 + 3)
+
+
+def fun3(x):
+    return x**2 / (1 + 2 * x**6)
+
+
+def interpolation(fun, x_range, n, node):
     fun_values = node(n)
+
     y = []
     for x in fun_values:
         y.append(fun(x))
@@ -39,86 +42,104 @@ def interpolation(fun, node, x_range, n):
     return y_new
 
 
-def plots():
+def plot():
     x_range = np.arange(-1.0, 1.01, 0.01)
-    fig, axs = plt.subplots(2, 2)
-    fig.set_figheight(6)
-    fig.set_figwidth(12)
-    axs[0, 0].set_title(
-        'Wielomiany interpolacyjne dla funkcji\n' r'$f(x)=\frac{1}{1+25x^2}$ i siatki $x_i=-1+2\frac{i}{n}$')
-    axs[0, 0].plot(x_range, y_function(x_range), 'r', label='f(x)', linewidth=2.5)
-    axs[0, 0].plot(x_range, interpolation(y_function, a_node, x_range, 2), 'b', label=r'$W_2(x)$')
-    axs[0, 0].plot(x_range, interpolation(y_function, a_node, x_range, 9), 'c', label=r'$W_9(x)$')
-    axs[0, 0].plot(x_range, interpolation(y_function, a_node, x_range, 15), 'y', label=r'$W_{15}(x)$')
-    axs[0, 0].legend(loc=8, prop={'size': 8})
+    fig, axs = plt.subplots(3, 2)
+    fig.set_figheight(10)
+    fig.set_figwidth(10)
+
     axs[0, 0].grid()
+    axs[0, 0].set_title(
+        'Wielomiany interpolacyjne dla\n' r'$f(x)=\frac{1}{1+25x^2}$ i $x_i=-1+2\frac{i}{n}$')
+    axs[0, 0].plot(x_range, y_function(x_range), 'c', label='y(x)')
+    axs[0, 0].plot(x_range, interpolation(y_function, x_range, 2, a_node), 'b', label=r'$W_2(x)$')
+    axs[0, 0].plot(x_range, interpolation(y_function, x_range, 9, a_node), 'g', label=r'$W_9(x)$')
+    axs[0, 0].plot(x_range, interpolation(y_function, x_range, 15, a_node), 'm', label=r'$W_{15}(x)$')
+    axs[0, 0].legend(loc=9, prop={'size': 8})
 
-    axs[0, 1].set_title(
-        'Wielomiany interpolacyjne dla funkcji\n' r'$f(x)=\frac{1}{1+25x^2}$ i siatki $x_i=\cos(\pi\frac{2i+1}{2(n+1)})$')
-    axs[0, 1].plot(x_range, y_function(x_range), 'r', label='f(x)', linewidth=2.5)
-    axs[0, 1].plot(x_range, interpolation(y_function, b_node, x_range, 2), 'b', label=r'$W_2(x)$')
-    # axs[0, 1].plot(x_range, interpolation(y_function, b_node, x_range, 5), 'g', label=r'$W_5(x)$')
-    axs[0, 1].plot(x_range, interpolation(y_function, b_node, x_range, 9), 'c', label=r'$W_8(x)$')
-    # axs[0, 1].plot(x_range, interpolation(y_function, b_node, x_range, 20), 'm', label=r'$W_{20}(x)$')
-    axs[0, 1].plot(x_range, interpolation(y_function, b_node, x_range, 40), 'y', label=r'$W_{40}(x)$')
-    axs[0, 1].legend(loc=8, prop={'size': 8})
     axs[0, 1].grid()
+    axs[0, 1].set_title(
+        'Wielomiany interpolacyjne dla\n' r'$f(x)=\frac{1}{1+25x^2}$ i $x_i=\cos(\pi\frac{2i+1}{2(n+1)})$')
+    axs[0, 1].plot(x_range, y_function(x_range), 'c', label='y(x)')
+    axs[0, 1].plot(x_range, interpolation(y_function, x_range, 2, b_node), 'b', label=r'$W_2(x)$')
+    axs[0, 1].plot(x_range, interpolation(y_function, x_range, 9, b_node), 'g', label=r'$W_9(x)$')
+    axs[0, 1].plot(x_range, interpolation(y_function, x_range, 40, b_node), 'm', label=r'$W_{40}(x)$')
+    axs[0, 1].legend(loc=8, prop={'size': 9})
 
-    axs[1, 0].set_title(
-        'Wielomiany interpolacyjne dla funkcji\n' r'$f(x)=\frac{1}{1+x^2}$ i siatki $x_i=-1+2\frac{i}{n}$')
-    axs[1, 0].plot(x_range, fun2(x_range), 'r', label='f(x)', linewidth=2.5)
-    axs[1, 0].plot(x_range, interpolation(fun2, a_node, x_range, 2), 'b', label=r'$W_2(x)$')
-    axs[1, 0].plot(x_range, interpolation(fun2, a_node, x_range, 3), 'g', label=r'$W_3(x)$')
-    # axs[1, 0].plot(x_range, interpolation(fun2, a_node, x_range, 9), 'c', label=r'$W_9(x)$')
-    axs[1, 0].plot(x_range, interpolation(fun2, a_node, x_range, 30), 'm', label=r'$W_{30}(x)$')
-    # axs[1, 0].plot(x_range, interpolation(fun2, a_node, x_range, 50), 'y', label=r'$W_{50}(x)$')
-    axs[1, 0].legend(loc=8, prop={'size': 8})
     axs[1, 0].grid()
+    axs[1, 0].set_title(
+        'Wielomiany interpolacyjne dla\n' r'$f(x)=\frac{1}{1+x^2}$ i $x_i=-1+2\frac{i}{n}$')
+    axs[1, 0].plot(x_range, fun2(x_range), 'c', label='y(x)')
+    axs[1, 0].plot(x_range, interpolation(fun2, x_range, 2, a_node), 'b', label=r'$W_2(x)$')
+    axs[1, 0].plot(x_range, interpolation(fun2, x_range, 3, a_node), 'g', label=r'$W_3(x)$')
+    axs[1, 0].plot(x_range, interpolation(fun2, x_range, 30, a_node), 'm', label=r'$W_{30}(x)$')
+    axs[1, 0].legend(loc=8, prop={'size': 9})
 
-    axs[1, 1].set_title(
-        'Wielomiany interpolacyjne dla funkcji\n' r'$f(x)=\frac{1}{1+x^2}$ i siatki $x_i=\cos(\pi\frac{2i+1}{2(n+1)})$')
-    axs[1, 1].plot(x_range, fun2(x_range), 'r', label='f(x)', linewidth=2.5)
-    axs[1, 1].plot(x_range, interpolation(fun2, b_node, x_range, 2), 'b', label=r'$W_2(x)$')
-    axs[1, 1].plot(x_range, interpolation(fun2, b_node, x_range, 3), 'g', label=r'$W_3(x)$')
-    axs[1, 1].plot(x_range, interpolation(fun2, b_node, x_range, 9), 'c', label=r'$W_9(x)$')
-    axs[1, 1].plot(x_range, interpolation(fun2, b_node, x_range, 30), 'm', label=r'$W_{30}(x)$')
-    axs[1, 1].plot(x_range, interpolation(fun2, b_node, x_range, 50), 'y', label=r'$W_{50}(x)$')
-    axs[1, 1].legend(loc=8, prop={'size': 8})
     axs[1, 1].grid()
+    axs[1, 1].set_title(
+        'Wielomiany interpolacyjne dla\n' r'$f(x)=\frac{1}{1+x^2}$ i $x_i=\cos(\pi\frac{2i+1}{2(n+1)})$')
+    axs[1, 1].plot(x_range, fun2(x_range), 'c', label='y(x)')
+    axs[1, 1].plot(x_range, interpolation(fun2, x_range, 2, b_node), 'b', label=r'$W_2(x)$')
+    axs[1, 1].plot(x_range, interpolation(fun2, x_range, 30, b_node), 'g', label=r'$W_{30}(x)$')
+    axs[1, 1].plot(x_range, interpolation(fun2, x_range, 50, b_node), 'm', label=r'$W_{50}(x)$')
+    axs[1, 1].legend(loc=8, prop={'size': 10})
 
-    # plt.setp(axs[:, :], xlabel='x')
-    # plt.setp(axs[:, :], ylabel='y')
-    fig.tight_layout(pad=1.0)
-    # plt.savefig("test.pdf")
+    axs[2, 0].grid()
+    axs[2, 0].set_title(
+        'Wielomiany interpolacyjne dla\n' r'$f(x)=\frac{1}{1+x^2}$ i $x_i=-1+2\frac{i}{n}$')
+    axs[2, 0].plot(x_range, fun3(x_range), 'c', label='y(x)')
+    axs[2, 0].plot(x_range, interpolation(fun3, x_range, 2, a_node), 'b', label=r'$W_2(x)$')
+    axs[2, 0].plot(x_range, interpolation(fun3, x_range, 5, a_node), 'g', label=r'$W_5(x)$')
+    axs[2, 0].plot(x_range, interpolation(fun3, x_range, 7, a_node), 'm', label=r'$W_{7}(x)$')
+    axs[2, 0].legend(loc=9, prop={'size': 9})
 
+    axs[2, 1].grid()
+    axs[2, 1].set_title(
+        'Wielomiany interpolacyjne dla\n' r'$f(x)=\frac{1}{1+x^2}$ i $x_i=\cos(\pi\frac{2i+1}{2(n+1)})$')
+    axs[2, 1].plot(x_range, fun2(x_range), 'r', label='y(x)')
+    axs[2, 1].plot(x_range, interpolation(fun3, x_range, 2, b_node), 'b', label=r'$W_2(x)$')
+    axs[2, 1].plot(x_range, interpolation(fun3, x_range, 5, b_node), 'g', label=r'$W_{5}(x)$')
+    axs[2, 1].plot(x_range, interpolation(fun3, x_range, 7, b_node), 'm', label=r'$W_{7}(x)$')
+    axs[2, 1].legend(loc=9, prop={'size': 10})
+
+    fig.tight_layout(pad=3.0)
     fig.savefig(
         "lewy_gorny.pdf",
-        bbox_inches=mtransforms.Bbox([[0, 0.5], [0.5, 1]]).transformed(
+        bbox_inches=mtransforms.Bbox([[0, 0.7], [0.5, 1.05]]).transformed(
             fig.transFigure - fig.dpi_scale_trans
         )
     )
     fig.savefig(
         "prawy_gorny.pdf",
-        bbox_inches=mtransforms.Bbox([[0.5, 0.5], [1, 1]]).transformed(
+        bbox_inches=mtransforms.Bbox([[0.5, 0.7], [1, 1.05]]).transformed(
+            fig.transFigure - fig.dpi_scale_trans
+        )
+    )
+    fig.savefig(
+        "lewy_srodkowy.pdf",
+        bbox_inches=mtransforms.Bbox([[0, 0.35], [0.5, 0.7]]).transformed(
+            fig.transFigure - fig.dpi_scale_trans
+        )
+    )
+    fig.savefig(
+        "prawy_srodkowy.pdf",
+        bbox_inches=mtransforms.Bbox([[0.5, 0.35], [1, 0.7]]).transformed(
             fig.transFigure - fig.dpi_scale_trans
         )
     )
     fig.savefig(
         "lewy_dolny.pdf",
-        bbox_inches=mtransforms.Bbox([[0, 0], [0.5, 0.5]]).transformed(
+        bbox_inches=mtransforms.Bbox([[0, 0], [0.5, 0.35]]).transformed(
             fig.transFigure - fig.dpi_scale_trans
         )
     )
     fig.savefig(
         "prawy_dolny.pdf",
-        bbox_inches=mtransforms.Bbox([[0.5, 0], [1, 0.5]]).transformed(
+        bbox_inches=mtransforms.Bbox([[0.5, 0], [1, 0.35]]).transformed(
             fig.transFigure - fig.dpi_scale_trans
         )
     )
-
-
-
     plt.show()
 
 
-plots()
+plot()
