@@ -50,12 +50,16 @@ def a_function(points_to_approximate, function_components):
     # @TODO: save plot
 
 
-def b_function(points_to_approximate, function_components, exact_coefficients):
+def b_function(function_components, exact_coefficients):
+    yValues = evaluate_function(np.array(list(map(sympy.sympify, FUNCTION_B_COMPONENTS))), FUNCTION_B_COEFFICIENTS,
+                                FUNCTION_B_XPOINTS)
+    for a in range(len(yValues)):
+        yValues[a] = yValues[a] + np.random.random()
+    points_to_approximate = np.array([[x, y] for x, y in zip(FUNCTION_B_XPOINTS, yValues)])
     coefficients = get_coefficients_using_least_squares_method(points_to_approximate, function_components)
     dense_x_range = np.arange(points_to_approximate[:, 0].min(), points_to_approximate[:, 0].max() + 0.01, 0.01)
 
     plt.figure(figsize=(13, 8))
-    plt.xlabel("x"), plt.ylabel("y")
     plt.grid(True)
     plt.title("Aproksymacja przy użyciu metody najmniejszych kwadratów funkcji:"
               "g(x) = ")
@@ -72,9 +76,9 @@ if sys.argv[1] == 'exercise_a':
     a_function(np.loadtxt(FILE_NAME), FUNCTION_A_COMPONENTS)
 elif sys.argv[1] == 'exercise_b':
     # TODO: twórz punkty w funkcji, czyli points w srodku funkcji
-    yValues = evaluate_function(np.array(list(map(sympy.sympify, FUNCTION_B_COMPONENTS))), FUNCTION_B_COEFFICIENTS, FUNCTION_B_XPOINTS)
-    for a in range(len(yValues)):
-        yValues[a] = yValues[a] + np.random.random()
-    points = np.array([[x, y] for x, y in zip(FUNCTION_B_XPOINTS, yValues)], dtype=np.double)
-    b_function(points, FUNCTION_B_COMPONENTS, FUNCTION_B_COEFFICIENTS)
+    # yValues = evaluate_function(np.array(list(map(sympy.sympify, FUNCTION_B_COMPONENTS))), FUNCTION_B_COEFFICIENTS, FUNCTION_B_XPOINTS)
+    # for a in range(len(yValues)):
+    #     yValues[a] = yValues[a] + np.random.random()
+    # points = np.array([[x, y] for x, y in zip(FUNCTION_B_XPOINTS, yValues)])
+    b_function(FUNCTION_B_COMPONENTS, FUNCTION_B_COEFFICIENTS)
 
