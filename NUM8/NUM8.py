@@ -36,7 +36,6 @@ def b_function(exact_coefficients):
     y_disturbed = []
     for a in range(len(y_points)):
         y_disturbed.append(y_points[a] + random.randrange(-1000, 1000) / 1000)
-        print(random.randrange(-1000, 1000) / 1000)
     matrix = np.column_stack([2 * x_points, np.cos(3 * x_points), np.cos(5 * x_points)])
     coefficients = np.linalg.inv(matrix.T @ matrix) @ matrix.T @ y_disturbed
 
