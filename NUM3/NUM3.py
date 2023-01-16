@@ -65,9 +65,9 @@ def make_plot():
 
     plt.grid(True)
     plt.title('Computing time')
-    plt.loglog(numpyResults.keys(), numpyResults.values(), 'tab:blue', label='Czas rozwiązania biblioteką numPy ')
+    plt.loglog(numpyResults.keys(), numpyResults.values(), 'tab:blue', label='Czas rozwiązania numPy ')
     plt.loglog(numericalResults.keys(), numericalResults.values(), 'tab:green',
-               label='Czas rozwiązywania zaimplementowanego algorytmu')
+               label='Czas rozwiązywania algorytmu')
     plt.legend(loc=0, fontsize=13)
     plt.savefig('computing_time.pdf')
 
